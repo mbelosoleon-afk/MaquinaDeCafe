@@ -37,6 +37,9 @@ object CoffeeMachine {
                 }
                 is CoffeeMachineState.EcharLeche -> {
                     println("Echando leche")
+                    println("1.Echar azucar")
+                    println("2.Calentar agua")
+                    println("Seleccione una")
                     var opcion = listOf(1,2).random()
                     when(opcion) {
                         1 -> currentState = CoffeeMachineState.EcharAzucar(true)
