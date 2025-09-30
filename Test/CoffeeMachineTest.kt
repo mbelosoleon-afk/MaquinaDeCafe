@@ -4,37 +4,37 @@ import org.junit.jupiter.api.Test
 class CoffeeMachineTest {
 
     @Test
-    fun makeCoffeeTransitionsFromIdleToServingCoffee() {
-        CoffeeMachine.currentState = CoffeeMachine.estadoIdle
+    fun makeCoffeeFromMenuTransitionsToEcharLecheOrCalentarAgua() {
+        CoffeeMachine.currentState = CoffeeMachineState.Menu
         CoffeeMachine.makeCoffee()
-        assertTrue(CoffeeMachine.currentState is CoffeeMachineState.ServingCoffee)
+        assertTrue(
+            CoffeeMachine.currentState is CoffeeMachineState.EcharLeche ||
+                    CoffeeMachine.currentState is CoffeeMachineState.CalentarAgua
+        )
     }
 
     @Test
-    fun makeCoffeeWhileMakingCoffeeDoesNotChangeState() {
-        CoffeeMachine.currentState = CoffeeMachineState.MakingCoffee
+    fun makeCoffeeFromCalentarAguaTransitionsToEcharCafe() {
+        CoffeeMachine.currentState = CoffeeMachineState.CalentarAgua
         CoffeeMachine.makeCoffee()
-        assertTrue(CoffeeMachine.currentState is CoffeeMachineState.MakingCoffee)
+        assertTrue(CoffeeMachine.currentState is CoffeeMachineState.EcharCafe)
     }
 
     @Test
-    fun makeCoffeeWhileServingCoffeeDoesNotChangeState() {
-        CoffeeMachine.currentState = CoffeeMachineState.ServingCoffee("Nescafé")
+    fun makeCoffeeFromEcharAzucarTransitionsToCalentarAgua() {
+        CoffeeMachine.currentState = CoffeeMachineState.EcharAzucar(true)
         CoffeeMachine.makeCoffee()
-        assertTrue(CoffeeMachine.currentState is CoffeeMachineState.ServingCoffee)
+        assertTrue(CoffeeMachine.currentState is CoffeeMachineState.CalentarAgua)
     }
 
     @Test
-    fun makeCoffeeWithErrorStateDoesNotChangeState() {
-        CoffeeMachine.currentState = CoffeeMachineState.Error("Error de prueba")
+    fun makeCoffeeFromEcharLecheTransitionsToEcharAzucarOrCalentarAgua() {
+        CoffeeMachine.currentState = CoffeeMachineState.EcharLeche
         CoffeeMachine.makeCoffee()
-        assertTrue(CoffeeMachine.currentState is CoffeeMachineState.Error)
+        assertTrue(
+            CoffeeMachine.currentState is CoffeeMachineState.EcharAzucar ||
+                    CoffeeMachine.currentState is CoffeeMachineState.CalentarAgua
+        )
     }
 
-    @Test
-    fun cleanResetsStateToIdle() {
-        CoffeeMachine.currentState = CoffeeMachineState.Error("Error de prueba")
-        CoffeeMachine.clean()
-        assertTrue(CoffeeMachine.currentState is CoffeeMachineState.Idle)
-    }
 }
