@@ -1,12 +1,9 @@
 import java.util.Scanner
 
 object CoffeeMachine {
-        var estadoIdle = CoffeeMachineState.Idle()
-        public var currentState: CoffeeMachineState = estadoIdle
+        var currentState: CoffeeMachineState = CoffeeMachineState.Idle()
 
         fun makeCoffee() {
-            println("Estado actual: $currentState")
-
             when (currentState) {
                 is CoffeeMachineState.Idle -> {
                     println("Esperando")
@@ -14,12 +11,13 @@ object CoffeeMachine {
                 }
                 is CoffeeMachineState.EcharCafe -> {
                     println("Echando café...")
+                    println("Listo")
                     return
                 }
                 is CoffeeMachineState.Menu -> {
-                    val scann: Scanner = Scanner(System.`in`)
                     println("1.Echar Leche")
                     println("2.Calentar agua")
+                    println("Seleccione una")
                     var opcion = listOf(1,2).random()
                     when(opcion){
                         1 -> currentState = CoffeeMachineState.EcharLeche
@@ -39,8 +37,8 @@ object CoffeeMachine {
                 }
                 is CoffeeMachineState.EcharLeche -> {
                     println("Echando leche")
-                    var scann = listOf(1,2).random()
-                    when(scann) {
+                    var opcion = listOf(1,2).random()
+                    when(opcion) {
                         1 -> currentState = CoffeeMachineState.EcharAzucar(true)
                         2 -> currentState = CoffeeMachineState.CalentarAgua
                     }
@@ -50,7 +48,7 @@ object CoffeeMachine {
 
         fun clean() {
             println("Limpiando la máquina...")
-            currentState = estadoIdle
+            currentState = CoffeeMachineState.Idle()
             println("Máquina limpia. Estado: $currentState")
         }
     }
