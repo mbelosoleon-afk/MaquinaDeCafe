@@ -1,0 +1,1 @@
+![Estados máquina café](Images/estados_maquina_cafe.png)
